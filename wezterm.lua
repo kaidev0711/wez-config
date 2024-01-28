@@ -46,13 +46,14 @@ config.tab_bar_at_bottom = true
 config.hide_tab_bar_if_only_one_tab = true
 config.hide_mouse_cursor_when_typing = true
 config.enable_tab_bar = true
-config.exit_behavior = "Close"
+config.exit_behavior = "CloseOnCleanExit"
 config.window_close_confirmation = 'NeverPrompt'
 config.show_new_tab_button_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.window_decorations = "RESIZE"
 config.check_for_updates = true
 config.check_for_updates_interval_seconds = 86400
+config.harfbuzz_features = { 'calt=0' }
 
 -- config.window_background_opacity = 0.8
 
@@ -89,7 +90,21 @@ config.keys = {
   { key = "m", mods = "LEADER",       action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
   { key = "w", mods = "LEADER",       action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
 
-
+  {
+    key = ',',
+    mods = 'CMD',
+    action = act.SpawnCommandInNewTab {
+      cwd = os.getenv('WEZTERM_CONFIG_DIR'),
+      set_environment_variables = {
+        TERM = 'screen-256color',
+      },
+      args = {
+        "/opt/homebrew/bin/hx",
+        os.getenv('WEZTERM_CONFIG_FILE'),
+      },
+    },
+  },
+   
 
 }
 
